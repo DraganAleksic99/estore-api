@@ -30,7 +30,11 @@ app.use(express.json())
 app.use(cors())
 app.use(cookieParser())
 
-app.use(' /register', registerRouter)
+app.get('/', (req, res) => {
+  res.send('Hello from Express!')
+})
+
+app.use('/register', registerRouter)
 app.use('/auth', authRouter)
 app.use('/refresh', refreshRouter)
 
