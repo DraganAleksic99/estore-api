@@ -35,7 +35,7 @@ app.get('/', (req, res) => {
 })
 
 app.use('/register', registerRouter)
-app.use('/auth', authRouter)
+app.use('/login', authRouter)
 app.use('/refresh', refreshRouter)
 
 app.use(function (err, req, res) {
