@@ -1,11 +1,5 @@
 import bcrypt from 'bcrypt'
-
-const usersDB = {
-  users: [],
-  setUsers(data) {
-    this.users = data
-  }
-}
+import usersDB from '../models/users.js'
 
 const handleNewUser = async (req, res) => {
   const { username, password } = req.body
@@ -22,7 +16,7 @@ const handleNewUser = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10)
     const newUser = {
       username,
-      hashedPassword
+      password: hashedPassword
     }
     usersDB.setUsers([...usersDB.users, newUser])
     return res.status(201).json({ success: `New user ${username} created` })
