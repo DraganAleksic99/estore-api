@@ -4,19 +4,20 @@ import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 
 const handleLogin = async (req, res) => {
-  const { username, password } = req.body
+  const { email, password } = req.body
 
-  if (!username || !password) {
-    return res.status(400).json({ message: 'Username and password are required. ' })
+  if (!email || !password) {
+    return res.status(400).json({ message: 'Email and password are required. ' })
   }
 
-  const existingUser = usersDB.users.find(user => user.username === username)
+  const existingUser = usersDB.users.find(user => user.email === email)
 
   if (!existingUser) return res.sendStatus(401)
 
   const match = await bcrypt.compare(password, existingUser.password)
 
   if (match) {
+    const username = existingUser.username
     const accessToken = jwt.sign({ username }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '5m' })
     const refreshToken = jwt.sign({ username }, process.env.REFRESH_TOKEN_SECRET, {
       expiresIn: '1d'
